@@ -1,0 +1,10 @@
+.grad{
+    position: relative;
+}
+.container{
+    position: absolute;
+    top: 32%;
+    left: 32%;
+    width: 40%;
+    
+}

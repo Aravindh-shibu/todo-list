@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .card{
+             width:30%;
+        }
+    </style>
+</head>
+<body>
+    <h1>TO DO LIST</h1>
+    welcome
+    {{request.user}}
+    <nav class="bg-dark text-white d-flex p-3 mb-5">
+    <h5>TodoApp</h5>
+    <span class="mx-auto">Logged in as: {{request.user}}</span>
+    <a href="{%url 'signout'%}" class="ms-auto btn btn-outline-warning">logout user <i class="fa-solid fa-user"></i><i class="fa-solid fa-arrow-rotate-left"></i></a>
+</nav>
+    <div class="container">
+       <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form action="" method="post">
+                {%csrf_token%}
+            
+                <div class="input-group mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="enter task" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">add</button>
+                  </div>
+                  
+    
+            </form>
+        </div>
+        <div class="col-3"></div>
+       </div>
+    </div>
+
+<div class="container">
+
+    <div class="section d-flex justify-content-evenly">
+        <div class="card border p-2" style="width:33%;">
+            <h1 class="text-center"><strong>Todos ({{pending}})</strong> </h1>
+        
+          {%for todo in data%}
+             {%if todo.status == 'todo'%}
+             <div class="alert alert-danger d-flex" role="alert">
+             <div>                {{todo}} </div>
+             <div class="ms-auto">  <a href="{%url 'todo-change' todo.id%}?status=inprogress"><button><i class="fa-solid fa-bars-progress fa-flip" style="color: #ff0000;"></i></button></a>
+             </div>
+              </div>
+              
+             {%endif%}
+          {%endfor%}
+
+        </div>
+        <div class="card border p-2" style="width:33%;">
+            <h1 class="text-center"><strong>Completed Todos ({{finished}})</strong></h1>
+
+         {%for todo in data%}
+               {%if todo.status == 'completed'%}
+                <div class="alert alert-success d-flex" role="alert">
+                        <div> {{todo}}</div>
+                        <div class="ms-auto"> <a href="{%url 'todo-delete' todo.id%}"> <button><i class="fa-solid fa-trash fa-bounce"></i></button></a>
+                        </div>
+                       </div>
+                       
+               {%endif%}
+         {%endfor%}
+         
+      
+
+        </div>
+        <div class="card border p-2" style="width:33%;">
+            <h1 class="text-center "><strong>Todos in progress ({{inprogress}})</strong></h1>
+
+            {%for todo in data%}
+               {%if todo.status == 'inprogress'%}
+               <div class="alert alert-info d-flex" role="alert">
+                <div>  {{todo.name}} </div>
+                <div class="ms-auto">  <a href="{%url 'todo-change' todo.id%}?status=completed"><button> <i class="fa-solid fa-check fa-beat"></i></button></a>
+                </div>
+                </div>
+                
+               {%endif%}
+            {%endfor%}
+
+
+        </div>
+    </div>
+    
+</div>    
+</body>
+</html>
